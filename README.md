@@ -1,0 +1,1 @@
+# Este documento possui um propósito de se tornar um planner totalemente efetivo
