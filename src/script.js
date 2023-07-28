@@ -3,6 +3,10 @@ const todayBtn = document.querySelector('#today');
 const prevBtn = document.querySelector('#prev-btn');
 const nextBtn = document.querySelector('#next-btn');
 const days = document.querySelector('.days');
+const monthInput = document.querySelector('#input-month');
+const yearInput = document.querySelector('#input-year');
+const monthSave = JSON.parse(localStorage.getItem('monthInput'));
+const yearSave = JSON.parse(localStorage.getItem('yearInput'));
 
 const months = [
   "January",
@@ -33,16 +37,70 @@ for (let index = 0; index < weekDays.length; index += 1) {
 // Data atual
 let date = new Date();
 
-// Mês atual
-let currentMonth = date.getMonth();
+// Mês atual se não tiver sido selecionado um mes no input
 
-// Ano atual
-let currentYear = date.getFullYear();
+let currentMonth = '';
 
+function monthGet() {
+  if(!monthSave) {
+    currentMonth = date.getMonth();
+  } else {
+    currentMonth = monthSave;
+  }
+  return currentMonth;
+}
+
+monthGet();
+
+// Ano atual se não tiver sido digitado um ano no input
+
+let currentYear = '';
+
+function yearGet() { 
+  if (!yearSave) {
+    currentYear = date.getFullYear();
+  } else {
+    currentYear = yearSave;
+  }
+  return currentYear;
+}
+
+yearGet();
+
+// Input select que tem o mes de escolha
+
+monthInput.addEventListener('click', (event) => {
+  const monthTarget = event.target;
+  const monthValue = monthTarget.value;
+  if (currentMonth != monthValue) {
+    currentMonth = parseInt(monthValue);
+    JSON.stringify(localStorage.setItem('monthInput', parseInt(monthValue)));
+    days.innerHTML = '';
+  } else {
+    currentMonth = date.getMonth();
+    days.innerHTML = '';
+  }
+  generateCalendar();
+})
+
+// Input number para digitar o numero do ano
+
+yearInput.addEventListener('keypress', (event) => {
+  const yearValue = event.target.value;
+  if (event.key === 'Enter' && (currentYear != yearValue)) {
+    currentYear = parseInt(yearValue);
+    JSON.stringify(localStorage.setItem('yearInput', parseInt(yearValue)));
+    days.innerHTML = '';
+  } else {
+    currentYear = date.getFullYear();
+    days.innerHTML = '';
+  }
+  generateCalendar();
+})
 // Criando o calendario
 
 // A função vai pegar o mes atual, o ultimo mes, o proximo mes, o dia que o mes acaba e o dia q o proximo mes começa
-const generateCalendar = () => {
+function generateCalendar() {
   date.setDate(1);
 
   const firstDay = new Date(currentYear, currentMonth, 1);
@@ -98,31 +156,6 @@ const generateCalendar = () => {
 }
 generateCalendar()
 
-// Botao do mes seguinte
-
-nextBtn.addEventListener('click', () => {
-  days.innerHTML = '';
-  currentMonth +=1;
-  if (currentMonth > 11) {
-    currentMonth = 0;
-    currentYear += 1;
-  }
-  
-  generateCalendar();
-});
-
-// Botao do mes anterior
-
-prevBtn.addEventListener('click', () => {
-  days.innerHTML = '';
-  currentMonth -=1;
-  if (currentMonth < 0) {
-    currentMonth = 11;
-    currentYear -= 1;
-  }
-  generateCalendar();
-})
-
 days.addEventListener('mouseover', (event) => {
   const focusDay = event.target;
   focusDay.classList.add('bg-blue-100');
@@ -139,6 +172,9 @@ todayBtn.addEventListener('click', () => {
   days.innerHTML = '';
   currentMonth = date.getMonth();
   currentYear = date.getFullYear();
+  monthInput.value = '';
+  localStorage.removeItem('monthInput');
+  localStorage.removeItem('yearInput');
   generateCalendar();
 })
 
@@ -150,3 +186,28 @@ function hideTodayButton() {
   }
 }
 
+
+
+// Botao do mes seguinte
+
+nextBtn.addEventListener('click', () => {
+  days.innerHTML = '';
+  currentMonth += 1;
+  if (currentMonth > 11) {
+    currentMonth = 0;
+    currentYear += 1;
+  }
+  generateCalendar();
+});
+
+// Botao do mes anterior
+
+prevBtn.addEventListener('click', () => {
+  days.innerHTML = '';
+  currentMonth -=1;
+  if (currentMonth < 0) {
+    currentMonth = 11;
+    currentYear -= 1;
+  }
+  generateCalendar();
+})

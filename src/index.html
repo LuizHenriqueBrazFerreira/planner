@@ -16,29 +16,29 @@
     <h1 class= "text-zinc-900 text-center pt-3.5 text-3xl font-semibold ">Monthly Planner</h1>
   </header>
   <main class="h-[900px]">
-    <div id="select-day" class="ml-2 inline-block">
-      <label for="input-month"> Selecione o mês:
-        <select name="Month" class="rounded bg-slate-200" id="input-month" required>
-          <option value=""></option>
-          <option value="jan">Janeiro</option>
-          <option value="feb">Fevereiro</option>
-          <option value="mar">Março</option>
-          <option value="apr">Abril</option>
-          <option value="may">Maio</option>
-          <option value="june">Junho</option>
-          <option value="july">Julho</option>
-          <option value="augs">Agosto</option>
-          <option value="sept">Setembro</option>
-          <option value="octob">Outubro</option>
-          <option value="nov">Novembro</option>
-          <option value="decem">Dezembro</option>
-      </select>
-    </label>
-    </div>
     <div id="select-month" class="w-1 inline-block">
       <form action="">
-        <input type="text" required minlength="4" class="text-center rounded mt-4 bg-slate-200" maxlength="4" placeholder="Digite o ano">
+        <input type="text" required minlength="4" class="text-center rounded mt-4 bg-slate-200" id="input-year" maxlength="4" placeholder="Enter the year">
       </form>
+    </div>
+    <div id="select-day" class="ml-60 inline-block">
+      <label for="input-month"> Select the month:
+        <select name="Month" class="rounded bg-slate-200" id="input-month" required>
+          <option value=""></option>
+          <option value="0">January</option>
+          <option value="1">February</option>
+          <option value="2">March</option>
+          <option value="3">April</option>
+          <option value="4">May</option>
+          <option value="5">June</option>
+          <option value="6">July</option>
+          <option value="7">August</option>
+          <option value="8">September</option>
+          <option value="9">October</option>
+          <option value="10">November</option>
+          <option value="11">December</option>
+      </select>
+    </label>
     </div>
     <div id="container">
       <div id="calendar">
